@@ -8,6 +8,7 @@ version: '3.7'
 services:
   toggle_service:
     build: .
+    restart: always
     container_name: toggle_service
     environment:
       API_TOKEN: ${API_TOKEN}
@@ -15,6 +16,7 @@ services:
       ENVIRONMENT: prod
     ports:
       - 443:443
+      - 80:80
     networks:
       - api-toggle
   mongodb:

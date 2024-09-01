@@ -14,7 +14,7 @@ export class ToggleController {
         this.repository = new ToggleRepository();
     }
 
-    list = async (name: string | null): Promise<ResultEntity> => {
+    list = async (name?: string): Promise<ResultEntity> => {
         console.log(name)
         const values = name ? await this.repository.findByName(name) : await this.repository.findAll();
         return new ResultEntity({

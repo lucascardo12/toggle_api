@@ -24,9 +24,14 @@ const verifyToken = (req: any, res: any, next: any) => {
 };
 
 app.get("/v1/toggle/search", async (req, res) => {
-    const name = req.query.name
-    const result = await controller.list(name?.toString() ?? null)
-    return res.send(result)
+    try {
+        const name = req.query.name
+        const result = await controller.list(name?.toString())
+        return res.send(result)
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ error: e });
+    }
 });
 
 app.put("/v1/toggle/:id", verifyToken, async (req, res, next) => {
@@ -54,11 +59,10 @@ const options = {
     key: fs.readFileSync('./key.pem'),
     cert: fs.readFileSync('./cert.pem'),
 };
-if (Bun.env.ENVIRONMENT == "prod") {
-    https.createServer(options, app).listen(443, () => {
-        console.log('HTTPS Server running on port 443');
-    });
-} else {
-    app.listen(8080)
-    console.log('HTTP Server running on port 8080');
-}
+https.createServer(options, app).listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+});
+
+app.listen(80)
+console.log('HTTP Server running on port 80');
+
