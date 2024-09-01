@@ -1,0 +1,37 @@
+x-logging: &x-logging
+  logging:
+    driver: 'json-file'
+    options:
+      max-file: '5'
+      max-size: '10m'
+version: '3.7'
+services:
+  toggle_service:
+    build: .
+    container_name: toggle_service
+    environment:
+      API_TOKEN: ${API_TOKEN}
+      MONGODB_URL: ${MONGODB_URL}
+      ENVIRONMENT: prod
+    ports:
+      - 443:443
+    networks:
+      - api-toggle
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER_ROOT}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+    networks:
+      - api-toggle
+
+networks:
+  api-toggle:
+
+
+volumes:
+  api-toggle:
