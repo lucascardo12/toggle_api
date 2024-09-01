@@ -29,7 +29,7 @@ export class ToggleEntity extends BaseEntity {
 
     public copyWith(status?: StatusToggleEnum, description?: string, value?: any): ToggleEntity {
         return new ToggleEntity(
-            this._id!,
+            this._id,
             this.name,
             this.updateAt,
             status ?? this.status,
