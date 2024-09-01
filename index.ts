@@ -2,13 +2,15 @@ import express from "express";
 import { ToggleController } from "./src/controllers/toggle_controller";
 import fs from 'fs';
 import https from 'https';
-
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const app = express();
 
 const controller = new ToggleController()
 app.use(express.json())
-
+app.use(cors({
+    origin: ['https://mangaeasy.top', 'https://*.lucas-cm.com.']
+}));
 const verifyToken = (req: any, res: any, next: any) => {
     const token = req.headers['authorization'];
     if (!token) {
